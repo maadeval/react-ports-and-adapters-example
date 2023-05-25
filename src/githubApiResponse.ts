@@ -1,4 +1,4 @@
-import { GithubRepository } from './modules/githubRepository/domain/GithubRepository.types'
+import { GithubRepositoryResponse } from './modules/githubRepository/domain/GithubRepositoryResponse.types'
 
 const repositoryData = {
   id: 519913556,
@@ -695,4 +695,4 @@ export const githubApiResponse = [
     issues,
     pullRequests,
   },
-] as GithubRepository[]
+] as GithubRepositoryResponse[]

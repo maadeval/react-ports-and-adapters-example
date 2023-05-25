@@ -1,11 +1,9 @@
-import { GithubRepository } from '../domain/GithubRepository.types'
 import { GithubRepositoryRepository } from '../domain/GithubRepositoryRepository.types'
 import { InvalidRepositoryUrl } from '../domain/InvalidRepositoryUrl'
-
-interface RepositoryId {
-  name: string
-  organization: string
-}
+import {
+  GithubRepository,
+  GithubRepositoryId,
+} from '../domain/GithubRepository.types'
 
 const BASE_URL = 'https://api.github.com/repos'
 
@@ -30,7 +28,7 @@ const search: GithubRepositoryRepository['search'] = async (
   return Promise.all(responsePromises)
 }
 
-const getRepositoryId = (url: string): RepositoryId => {
+const getRepositoryId = (url: string): GithubRepositoryId => {
   try {
     const currentURL = new URL(url)
     const splittedUrl = currentURL.pathname.split('/')
@@ -47,24 +45,33 @@ const getRepositoryId = (url: string): RepositoryId => {
 const searchById = ({
   name,
   organization,
-}: RepositoryId): Promise<GithubRepository> => {
+}: GithubRepositoryId): Promise<GithubRepository> => {
   const promiseRepository = ENDPOINTS.map((endpoint) =>
     endpoint.replace('{organization}', organization).replace('{name}', name)
-  ).map((endpointRepository) =>
-    fetch(endpointRepository, {
+  ).map((endpointRepository) => {
+    // fdfd
+    return fetch(endpointRepository, {
       headers: {
         Authorization: `Bearer ${PERSONAL_ACCESS_TOKEN}`,
       },
     })
-  )
+  })
 
   return Promise.all(promiseRepository).then((responses) =>
     Promise.all(responses.map((res) => res.json())).then(
-      ([repositoryData, issues, pullRequests]) => ({
-        issues,
-        pullRequests,
-        repositoryData,
-      })
+      ([repositoryData, issues, pullRequests]) =>
+        ({
+          uuid: repositoryData.id.toString(),
+          id: {
+            name: repositoryData.name,
+            organization: repositoryData.owner.login,
+          },
+          url: repositoryData.html_url,
+          description: repositoryData.description,
+          private: repositoryData.private,
+          issuesLenght: issues.length,
+          pullRequestsLenght: pullRequests.length,
+        } as GithubRepository)
     )
   )
 }
