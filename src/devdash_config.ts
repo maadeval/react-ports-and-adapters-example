@@ -1,0 +1,3 @@
+export const DEVDASH_CONFIG = {
+  GITHUB_ACCESS_TOKEN: import.meta.env.VITE_GITHUB_PERSONAL_ACCESS_TOKEN,
+}
