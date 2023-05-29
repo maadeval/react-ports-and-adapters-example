@@ -5,6 +5,7 @@ import { GithubRepository } from '../domain/GithubRepository.types'
 export const InMemoryGithubRepositoryRepository =
   (): GithubRepositoryRepository => ({
     search,
+    searchById,
   })
 
 const search: GithubRepositoryRepository['search'] = () => {
@@ -26,12 +27,18 @@ const search: GithubRepositoryRepository['search'] = () => {
   )
 }
 
-/* 
-  id: GithubRepositoryId
-  url: string
-  description: string
-  private: boolean
-  issuesLenght: number
-  pullRequestsLenght: number
+const searchById: GithubRepositoryRepository['searchById'] = () => {
+  const [firstRepository] = githubApiResponse
 
-*/
+  return Promise.resolve({
+    id: {
+      name: firstRepository.repositoryData.name,
+      organization: firstRepository.repositoryData.owner.login,
+    },
+    url: firstRepository.repositoryData.html_url,
+    description: firstRepository.repositoryData.description,
+    private: firstRepository.repositoryData.private,
+    issuesLenght: firstRepository.issues.length,
+    pullRequestsLenght: firstRepository.pullRequests.length,
+  } as GithubRepository)
+}
