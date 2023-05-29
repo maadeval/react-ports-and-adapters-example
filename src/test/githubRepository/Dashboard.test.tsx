@@ -50,4 +50,16 @@ describe('Dashboard', () => {
       })
     ).toBeInTheDocument()
   })
+
+  it('should render a message if repository not found', async () => {
+    mockGithubRepositoryRepository.search.mockRejectedValue(
+      new InvalidRepositoryUrl('Repository not found')
+    )
+
+    renderWithRouter(
+      <GithubRepositoriesList repository={mockGithubRepositoryRepository} />
+    )
+
+    expect(await screen.findByText(/Repository not found/i)).toBeInTheDocument()
+  })
 })
