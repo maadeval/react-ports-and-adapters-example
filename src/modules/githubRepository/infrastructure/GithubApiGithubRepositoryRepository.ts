@@ -4,6 +4,7 @@ import {
   GithubRepository,
   GithubRepositoryId,
 } from '../domain/GithubRepository.types'
+import { UnexistedRepository } from '../domain/UnexistedRepository'
 
 const BASE_URL = 'https://api.github.com/repos'
 
@@ -18,6 +19,7 @@ const PERSONAL_ACCESS_TOKEN = import.meta.env.VITE_GITHUB_PERSONAL_ACCESS_TOKEN
 export const GithubApiGithubRepositoryRepository =
   (): GithubRepositoryRepository => ({
     search,
+    searchById,
   })
 
 const search: GithubRepositoryRepository['search'] = async (
@@ -49,7 +51,6 @@ const searchById = ({
   const promiseRepository = ENDPOINTS.map((endpoint) =>
     endpoint.replace('{organization}', organization).replace('{name}', name)
   ).map((endpointRepository) => {
-    // fdfd
     return fetch(endpointRepository, {
       headers: {
         Authorization: `Bearer ${PERSONAL_ACCESS_TOKEN}`,
@@ -58,7 +59,12 @@ const searchById = ({
   })
 
   return Promise.all(promiseRepository).then((responses) =>
-    Promise.all(responses.map((res) => res.json())).then(
+    Promise.all(
+      responses.map((res) => {
+        if (!res.ok) throw new UnexistedRepository('Repository not found')
+        return res.json()
+      })
+    ).then(
       ([repositoryData, issues, pullRequests]) =>
         ({
           uuid: repositoryData.id.toString(),

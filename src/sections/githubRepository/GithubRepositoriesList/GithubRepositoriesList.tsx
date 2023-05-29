@@ -1,56 +1,22 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { GithubRepositoryRepository } from '../../../modules/githubRepository/domain/GithubRepositoryRepository.types'
 import { GithubRepositoriesRows } from '../GithubRepositoriesRows/GithubRepositoriesRows'
-import { GithubRepository } from '../../../modules/githubRepository/domain/GithubRepository.types'
-import { getRepositories } from '../../../modules/githubRepository/application/get/getRepositories'
-import { InvalidRepositoryUrl } from '../../../modules/githubRepository/domain/InvalidRepositoryUrl'
 import { NavLink } from 'react-router-dom'
+import { useGithubRepository } from '../useGithubRepository'
 
 interface Props {
   repository: GithubRepositoryRepository
 }
 
-interface StateProps {
-  loading: boolean
-  error: null | string
-  data: GithubRepository[]
-}
+const repositoriesList = [
+  'https://github.com/maadeval/madeval',
+  'https://github.com/maadeval/users-list',
+]
 
 export const GithubRepositoriesList: FC<Props> = ({ repository }) => {
-  const [{ data, error, loading }, setGithubRepositories] =
-    useState<StateProps>({
-      loading: true,
-      error: null,
-      data: [],
-    })
-
-  const handleRepositoryError = (error: string) =>
-    setGithubRepositories({
-      loading: false,
-      error,
-      data: [],
-    })
-
-  const handleRepositoryData = (repositories: GithubRepository[]) =>
-    setGithubRepositories({
-      loading: false,
-      error: null,
-      data: repositories,
-    })
-
-  useEffect(() => {
-    getRepositories(repository, {
-      repositoriesUrl: [
-        'https://github.com/maadeval/madeval',
-        'https://github.com/maadeval/users-list',
-      ],
-    })
-      .then(handleRepositoryData)
-      .catch((err) => {
-        if (err instanceof InvalidRepositoryUrl)
-          return handleRepositoryError(err.message)
-      })
-  }, [repository])
+  const { error, loading, repositories } = useGithubRepository(repository, {
+    repositoriesList: repositoriesList,
+  })
 
   return (
     <>
@@ -61,7 +27,7 @@ export const GithubRepositoriesList: FC<Props> = ({ repository }) => {
             <span className='block text-2xl text-stone-600'>Repositories</span>
           </h1>
           <span className='text-stone-600'>
-            Total repositories: {data.length}
+            Total repositories: {repositories.length}
           </span>
         </div>
         <nav className='flex items-center gap-2 py-4'>
@@ -79,7 +45,7 @@ export const GithubRepositoriesList: FC<Props> = ({ repository }) => {
       </header>
       <GithubRepositoriesRows
         loading={loading}
-        repositories={data}
+        repositories={repositories}
         error={error}
       />
     </>
