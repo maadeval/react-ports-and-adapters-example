@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { GithubRepository } from '../../../modules/githubRepository/domain/GithubRepository.types'
 import { LockClosedIcon } from '../../shared/icons/LockClosedIcon'
 import { LockOpenIcon } from '../../shared/icons/LockOpenIcon'
+import { Link } from 'react-router-dom'
 
 interface Props {
   repository: GithubRepository
@@ -9,7 +10,8 @@ interface Props {
 
 export const GithubRepositoryWidget: FC<Props> = ({ repository }) => {
   return (
-    <article
+    <Link
+      to={`/${repository.id.organization}/${repository.id.name}`}
       className='flex flex-col w-full max-w-xs border rounded-md shadow-xl bg-stone-50 border-stone-100 shadow-stone-200'
       key={repository.uuid}
     >
@@ -42,6 +44,6 @@ export const GithubRepositoryWidget: FC<Props> = ({ repository }) => {
           Go to repository
         </a>
       </footer>
-    </article>
+    </Link>
   )
 }

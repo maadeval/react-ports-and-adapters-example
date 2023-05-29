@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { GithubRepositoryRepository } from '../../../modules/githubRepository/domain/GithubRepositoryRepository.types'
 import { GithubRepositoriesRows } from '../GithubRepositoriesRows/GithubRepositoriesRows'
 import { NavLink } from 'react-router-dom'
-import { useGithubRepository } from '../useGithubRepository'
+import { useGithubRepositories } from '../useGithubRepositories'
 
 interface Props {
   repository: GithubRepositoryRepository
@@ -14,7 +14,7 @@ const repositoriesList = [
 ]
 
 export const GithubRepositoriesList: FC<Props> = ({ repository }) => {
-  const { error, loading, repositories } = useGithubRepository(repository, {
+  const { error, loading, repositories } = useGithubRepositories(repository, {
     repositoriesList: repositoriesList,
   })
 
