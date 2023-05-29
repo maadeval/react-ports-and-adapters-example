@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { GithubRepositoryRepository } from '../../../modules/githubRepository/domain/GithubRepositoryRepository.types'
 import { useParams } from 'react-router-dom'
 import { GithubRepositoryId } from '../../../modules/githubRepository/domain/GithubRepository.types'
@@ -14,14 +14,16 @@ export const GithubRepositoryDetails: FC<Props> = ({
   const { name = '', organization = '' } =
     useParams<Partial<GithubRepositoryId>>()
 
+  const repositoryId = useMemo(
+    () => ({ name, organization }),
+    [name, organization]
+  )
+
   const {
     error,
     githubRepository: repository,
     loading,
-  } = useGithubRepository(githubRepository, {
-    name,
-    organization,
-  })
+  } = useGithubRepository(githubRepository, repositoryId)
 
   if (loading) return <p className='px-2 py-4 my-8 text-lg'>Loading...</p>
   if (error)

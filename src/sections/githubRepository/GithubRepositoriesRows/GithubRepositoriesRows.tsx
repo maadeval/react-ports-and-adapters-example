@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { GithubRepository } from '../../../modules/githubRepository/domain/GithubRepository.types'
 import { GithubRepositoryWidget } from '../GithubRepositoryWidget/GithubRepositoryWidget'
-
+import { GithubRepositoryWidgetSkeletonList } from '../GithubRepositoryWidget/GithubRepositoryWidgetSkeleton'
 interface Props {
   error: string | null
   repositories: GithubRepository[]
@@ -19,7 +19,8 @@ export const GithubRepositoriesRows: FC<Props> = ({
         {error}
       </p>
     )
-  if (loading) return <p className='mx-4 my-8 text-xl'>Loading...</p>
+
+  if (loading) return <GithubRepositoryWidgetSkeletonList />
 
   if (repositories.length === 0)
     return (
@@ -29,7 +30,7 @@ export const GithubRepositoriesRows: FC<Props> = ({
     )
 
   return (
-    <section className='flex flex-wrap gap-4 my-8'>
+    <section className='grid grid-cols-3 gap-4 my-8'>
       {repositories.map((repo) => (
         <GithubRepositoryWidget key={repo.uuid} repository={repo} />
       ))}
