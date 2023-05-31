@@ -36,13 +36,15 @@ export const GithubRepositoryWidget: FC<Props> = ({ repository }) => {
         <p className='py-2 text-stone-600'>{repository.description}</p>
       </main>
       <footer className='px-4 py-2 bg-stone-100'>
-        <a
+        <button
           className='text-sm hover:underline text-stone-600 hover:text-stone-700 hover:decoration-dotted'
-          href={repository.url}
-          target='_blank'
+          onClick={(evt) => {
+            evt.preventDefault()
+            window.open(repository.url, '_blank')
+          }}
         >
           Go to repository
-        </a>
+        </button>
       </footer>
     </Link>
   )
