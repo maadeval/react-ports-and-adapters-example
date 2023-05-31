@@ -1,8 +1,9 @@
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { GithubRepositoryRepository } from '../../../modules/githubRepository/domain/GithubRepositoryRepository.types'
 import { useParams } from 'react-router-dom'
 import { GithubRepositoryId } from '../../../modules/githubRepository/domain/GithubRepository.types'
 import { useGithubRepository } from '../useGithubRepository'
+import { topbarProgress } from '../../shared/TopBarProgressByLocation/topbarProgress'
 
 interface Props {
   repository: GithubRepositoryRepository
@@ -24,6 +25,11 @@ export const GithubRepositoryDetails: FC<Props> = ({
     githubRepository: repository,
     loading,
   } = useGithubRepository(githubRepository, repositoryId)
+
+  useEffect(() => {
+    if (loading) return
+    topbarProgress.cancelProgress()
+  }, [loading])
 
   if (loading) return <p className='px-2 py-4 my-8 text-lg'>Loading...</p>
   if (error)

@@ -3,7 +3,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const GithubRepositoryWidgetSkeleton = () => {
   return (
-    <article className='flex flex-col w-full max-w-xs border rounded-md shadow-xl bg-stone-50 border-stone-100 shadow-stone-200'>
+    <article className='flex flex-col w-full max-w-xs border rounded-md shadow-xl h-[231px] bg-stone-50 border-stone-100 shadow-stone-200'>
       <header className='flex items-center justify-between px-4 py-2 border-b border-b-stone-200'>
         <div>
           <p className='text-sm'>
