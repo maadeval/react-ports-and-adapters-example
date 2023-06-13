@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "prebuild": "npm run lint",
     "test": "vitest",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "8.0.1",
+    "@peculiar/webcrypto": "1.4.3",
     "@testing-library/dom": "9.3.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
@@ -31,8 +33,10 @@
     "autoprefixer": "10.4.14",
     "eslint": "^8.38.0",
     "eslint-plugin-hexagonal-architecture": "1.0.3",
+    "eslint-plugin-jest-dom": "5.0.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "eslint-plugin-testing-library": "5.11.0",
     "jsdom": "22.0.0",
     "postcss": "8.4.23",
     "tailwindcss": "3.3.2",

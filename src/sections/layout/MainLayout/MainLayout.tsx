@@ -19,12 +19,22 @@ export const MainLayout = () => {
             <NavLink
               to='/'
               className={({ isActive }) =>
-                `px-2 py-1 rounded text-stone-600 hover:bg-stone-100 ${
+                `px-2 py-1 rounded text-stone-600 hover:bg-stone-200 ${
                   isActive ? 'bg-stone-200 hover:bg-stone-300' : ''
                 }`
               }
             >
               Dashboard
+            </NavLink>
+            <NavLink
+              to='/create'
+              className={({ isActive }) =>
+                `px-2 py-1 rounded text-stone-600 hover:bg-stone-200 ${
+                  isActive ? 'bg-stone-200 hover:bg-stone-300' : ''
+                }`
+              }
+            >
+              Add
             </NavLink>
           </nav>
         </header>

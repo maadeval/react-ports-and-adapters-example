@@ -7,9 +7,15 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  plugins: ['react-refresh', 'hexagonal-architecture'],
+  plugins: [
+    'react-refresh',
+    'hexagonal-architecture',
+    'testing-library',
+    'jest-dom',
+  ],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    'no-console': 'error',
   },
   overrides: [
     {
