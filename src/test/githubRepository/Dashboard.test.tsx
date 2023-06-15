@@ -14,7 +14,10 @@ describe('Dashboard', () => {
     mockGithubRepositoryRepository.search.mockResolvedValue([])
 
     renderWithRouter(
-      <GithubRepositoriesList repository={mockGithubRepositoryRepository} />
+      <GithubRepositoriesList
+        listOfWidgets={[]}
+        repository={mockGithubRepositoryRepository}
+      />
     )
 
     expect(
@@ -28,7 +31,10 @@ describe('Dashboard', () => {
     )
 
     renderWithRouter(
-      <GithubRepositoriesList repository={mockGithubRepositoryRepository} />
+      <GithubRepositoriesList
+        listOfWidgets={[]}
+        repository={mockGithubRepositoryRepository}
+      />
     )
 
     expect(
@@ -41,7 +47,10 @@ describe('Dashboard', () => {
     mockGithubRepositoryRepository.search.mockResolvedValue([mockRepositories])
 
     renderWithRouter(
-      <GithubRepositoriesList repository={mockGithubRepositoryRepository} />
+      <GithubRepositoriesList
+        listOfWidgets={[]}
+        repository={mockGithubRepositoryRepository}
+      />
     )
 
     expect(
@@ -57,7 +66,10 @@ describe('Dashboard', () => {
     )
 
     renderWithRouter(
-      <GithubRepositoriesList repository={mockGithubRepositoryRepository} />
+      <GithubRepositoriesList
+        listOfWidgets={[]}
+        repository={mockGithubRepositoryRepository}
+      />
     )
 
     expect(await screen.findByText(/Repository not found/i)).toBeInTheDocument()

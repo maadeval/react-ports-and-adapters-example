@@ -1,21 +1,26 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { GithubRepositoryRepository } from '../../../modules/githubRepository/domain/GithubRepositoryRepository.types'
 import { GithubRepositoriesRows } from '../GithubRepositoriesRows/GithubRepositoriesRows'
 import { useGithubRepositories } from '../useGithubRepositories'
 import { topbarProgress } from '../../shared/TopBarProgressByLocation/topbarProgress'
+import { Widget } from '../../../modules/widget/domain/Widget.types'
 
 interface Props {
   repository: GithubRepositoryRepository
+  listOfWidgets: Widget[]
 }
 
-const repositoriesList = [
-  'https://github.com/maadeval/madeval',
-  'https://github.com/maadeval/users-list',
-]
+export const GithubRepositoriesList: FC<Props> = ({
+  repository,
+  listOfWidgets,
+}) => {
+  const repositoriesList = useMemo(
+    () => listOfWidgets.map((widget) => widget.url),
+    [listOfWidgets]
+  )
 
-export const GithubRepositoriesList: FC<Props> = ({ repository }) => {
   const { error, loading, repositories } = useGithubRepositories(repository, {
-    repositoriesList: repositoriesList,
+    repositoriesList,
   })
 
   useEffect(() => {

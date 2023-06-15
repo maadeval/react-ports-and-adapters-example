@@ -37,7 +37,10 @@ export const useGithubRepositoryCreateForm = (repository: WidgetRepository) => {
     createWidget(repository, {
       widget,
     })
-      .then(() => setErrorUrlInput(null))
+      .then(() => {
+        document.dispatchEvent(new CustomEvent('widgetCreated'))
+        setErrorUrlInput(null)
+      })
       .catch((err) => {
         if (err instanceof AlreadyExistWidgetError)
           return setErrorUrlInput(
